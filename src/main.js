@@ -29,12 +29,15 @@ function createAnimation() {
 
 //SPLITTING STARTS
 let typeSplit
+let splitText
 
 function runSplit() {
+  splitText = new SplitType('[stagger-link]', {
+    types: 'words, chars',
+  })
   typeSplit = new SplitType('.description_split-word', {
     types: 'lines, words',
   })
-
   //SPLITTING ENDS
 
   //LINE MASK STARTS
@@ -46,7 +49,36 @@ function runSplit() {
   createAnimation()
   //LINE MASK ENDS
 }
+
 runSplit()
+
+//select the links to add hover event listener
+const links = document.querySelectorAll('[stagger-link-item]')
+links.forEach((link) => {
+  //select the letters to add stagger
+  //!select the letters in the current link not the document
+  const letters = link.querySelectorAll('[stagger-link-text] .char')
+  //add event lintener to all links
+  link.addEventListener('mouseenter', () => {
+    gsap.to(letters, {
+      yPercent: -100,
+      duration: 0.5,
+      ease: 'power4.inOut',
+      stagger: { each: 0.01 },
+      //overwrite does is it interrupts the mouseleave animate if we mouseenter back in and plays the mouseenter animation
+      overwrite: true,
+    })
+  })
+  link.addEventListener('mouseleave', () => {
+    gsap.to(letters, {
+      yPercent: 0,
+      duration: 0.5,
+      ease: 'power4.inOut',
+      stagger: { each: 0.01, from: 'end' },
+      overwrite: true,
+    })
+  })
+})
 
 //SHUFFLE WORDS STARTS
 const words = [
@@ -86,9 +118,12 @@ function startTypewriter() {
   typewriters.forEach((typewriter) => {
     new Typewriter(typewriter, {
       strings: [
-        'Embark on a journey of unparalleled sophistication',
-        'Revolutionary design meets cutting-edge technology',
-        'Redefining automotive excellence for over 67 years',
+        'Crafting seamless Webflow experiences with artistry',
+        'Elevating web interactions with GSAP and Spline animations',
+        'Blending code and creativity for unique web designs',
+        'Designing user-centric websites across diverse industries',
+        'Optimizing Webflow sites with performance and SEO in mind',
+        'Bringing over 4 years of expertise to your projects',
       ],
       autoStart: true,
       loop: true,
@@ -107,10 +142,10 @@ const loaderTimeline = gsap.timeline()
 loaderTimeline
   .to('.loader-logo', { duration: 1, autoAlpha: 0, ease: 'power1.inOut' })
   .to('.loader-logo', { duration: 1, autoAlpha: 1, ease: 'power1.inOut' })
-  .repeat(1)
+  .repeat(2)
 
 window.onload = function () {
-  preloaderTL.add(loaderTimeline)
+  //preloaderTL.add(loaderTimeline)
   preloaderTL
     .to('.preloader > *', {
       yPercent: -100,
@@ -118,7 +153,7 @@ window.onload = function () {
         amount: 0.4,
         from: 'random',
       },
-
+      delay: 3,
       duration: 0.85,
       ease: 'power4.inOut',
     })
@@ -195,4 +230,34 @@ navLinks.forEach(function (link) {
     //add active class to current link
     this.classList.add('is--active')
   })
+})
+
+const hoverTarget = document.querySelectorAll('[hoverTarget]')
+hoverTarget.forEach((target) => {
+  target.addEventListener('mouseover', () => {
+    target.style.border = '1px solid #e6e6e6'
+    target.style.boxShadow =
+      '0px 1.245px 2.214px 0px rgba(255, 255, 255, 0.02), 0px 2.993px 5.32px 0px rgba(255, 255, 255, 0.03), 0px 5.635px 10.017px 0px rgba(255, 255, 255, 0.04), 0px 10.051px 17.869px 0px rgba(255, 255, 255, 0.04), 0px 18.8px 33.422px 0px rgba(255, 255, 255, 0.05), 0px 45px 80px 0px rgba(255, 255, 255, 0.07)'
+  })
+
+  target.addEventListener('mouseout', () => {
+    target.style.border = ''
+    target.style.boxShadow = ''
+  })
+})
+
+//RESIZE WINDOW EVENT
+let resizeTimer
+let windowWidth = window.innerWidth
+window.addEventListener('resize', () => {
+  if (windowWidth !== window.innerWidth) {
+    clearTimeout(resizeTimer)
+    resizeTimer = setTimeout(() => {
+      location.reload()
+    }, 250)
+    windowWidth = window.innerWidth
+    typeSplit.revert()
+    splitText.revert()
+    runSplit()
+  }
 })
