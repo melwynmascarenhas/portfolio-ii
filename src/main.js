@@ -118,12 +118,11 @@ function startTypewriter() {
   typewriters.forEach((typewriter) => {
     new Typewriter(typewriter, {
       strings: [
-        'Crafting seamless Webflow experiences with artistry',
-        'Elevating web interactions with GSAP and Spline animations',
-        'Blending code and creativity for unique web designs',
-        'Designing user-centric websites across diverse industries',
-        'Optimizing Webflow sites with performance and SEO in mind',
         'Bringing over 4 years of expertise to your projects',
+        'Crafting seamless Webflow experiences with artistry',
+        'Elevating interactions with GSAP and Spline animations',
+        'Blending code and creativity for unique web designs',
+        'Optimizing Webflow sites with performance and SEO in mind',
       ],
       autoStart: true,
       loop: true,
