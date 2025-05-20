@@ -131,7 +131,6 @@ function startTypewriter() {
   typewriters.forEach((typewriter) => {
     new Typewriter(typewriter, {
       strings: [
-        'Bringing over 4 years of expertise to your projects',
         'Crafting seamless Webflow experiences with artistry',
         'Elevating interactions with GSAP and Spline animations',
         'Blending code and creativity for unique web designs',
